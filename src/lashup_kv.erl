@@ -271,6 +271,7 @@ init_db(Nodes) ->
   mnesia:create_schema(Nodes),
   mnesia:change_table_copy_type (schema, node(), disc_copies), % If the node was already running
   {ok, _} = application:ensure_all_started(mnesia),
+  {ok, _Alias} = mnesia_rocksdb:register(),
   ExistingTables = mnesia:system_info(tables),
   Tables = [?KV_TABLE, nclock],
   TablesToCreate = Tables -- ExistingTables,
@@ -290,7 +291,7 @@ init_db(Nodes) ->
 create_table(Table) ->
   {atomic, ok} =  mnesia:create_table(Table, [
     {attributes, get_record_info(Table)},
-    {disc_copies, [node()]},
+    {rocksdb_copies, [node()]},
     {type, set}
   ]).
 

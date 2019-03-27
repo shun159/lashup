@@ -62,7 +62,7 @@ masters(Nodes) ->
     element(1, lists:split(length(?MASTERS), Nodes)).
 
 agents(Nodes) ->
-	element(2, lists:split(length(?MASTERS), Nodes)).
+    element(2, lists:split(length(?MASTERS), Nodes)).
 
 start_nodes(Nodes) ->
     Opts = [{monitor_master, true}, {erl_flags, "-connect_all false"}],
